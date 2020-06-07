@@ -28,10 +28,10 @@ final class SoundPlayerView: UIView {
         slider.translatesAutoresizingMaskIntoConstraints = false
         slider.isContinuous = true
         
-//        slider.tintColor = .clear
-//        slider.setMinimumTrackImage(UIImage(), for: .normal)
-//        slider.setMaximumTrackImage(UIImage(), for: .normal)
-        
+        slider.tintColor = .clear
+        slider.setMinimumTrackImage(UIImage(), for: .normal)
+        slider.setMaximumTrackImage(UIImage(), for: .normal)
+
         
         slider.addTarget(self, action: #selector(sliderValueDidChange), for: .valueChanged)
         let config: UIImage.SymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 1, weight: UIImage.SymbolWeight.bold, scale: UIImage.SymbolScale.large)
@@ -46,6 +46,12 @@ final class SoundPlayerView: UIView {
     @objc func sliderValueDidChange(_ sender: UISlider) {
         
         self.mediaService.setNewTimeValue(sender.value)
+        
+        
+        let progressIndex =  Int(self.samplesLevels!.count * Int(sender.value) / 100) == 0 ? 1 : Int(self.samplesLevels!.count * Int(sender.value) / 100)
+        UIView.animate(withDuration: 0.1) {
+            self.rendererView.image = self.drawOscillogram(progressIndex: progressIndex)
+        }
     }
     
     
@@ -200,6 +206,9 @@ final class SoundPlayerView: UIView {
     
     var soundId: String = ""
     var audioContext: PVAudioContext?
+    var samplesLevels: [Float]?
+    let itemWidth: CGFloat = 5
+    let gap: CGFloat = 2.5
     
     func openAudioTrack(_ filePath: URL) {
         
@@ -213,8 +222,21 @@ final class SoundPlayerView: UIView {
             }
         }
         
-        PVAudioContext.load(fromAudioURL: filePath) { [weak self] (audioContext) in
-            self?.audioContext = audioContext
+        PVAudioContext.load(fromAudioURL: filePath) { (audioContext) in
+            
+            if let audioContext = audioContext {
+                DispatchQueue.main.async {
+                    self.audioContext = audioContext
+                    let N = Int(self.rendererView.frame.size.width / (self.gap + self.itemWidth))
+                    self.samplesLevels = self.audioContext!.render(targetSamples: N)
+                    
+                    let renderImage = self.drawOscillogram(progressIndex: 1)
+                    
+                    self.rendererView.image = renderImage
+                }
+                
+            }
+            
         }
         
     }
@@ -237,20 +259,27 @@ final class SoundPlayerView: UIView {
     
     
     // Отрисовка осцилограммы
-    func drawOscillogram(size: CGSize, itemWidth: CGFloat, gap: CGFloat, samples: [Float], progressIndex: Int) -> UIImage {
-        let renderer = UIGraphicsImageRenderer(size: size)
+    func drawOscillogram(progressIndex: Int) -> UIImage {
+        
+        
+        guard let samples = self.samplesLevels  else { return UIImage()}
+        
+        
+        let renderer = UIGraphicsImageRenderer(size: self.rendererView.frame.size)
         let img = renderer.image { context in
             for (index, sample) in samples.enumerated() {
                 
-                let height = min(max(CGFloat(sample) * size.height * 2, 0.2), size.height)
+                let height = min(max(CGFloat(sample) * self.rendererView.frame.size.height * 2, 0.2), self.rendererView.frame.size.height)
                 
-                let offsetY = size.height - height
+                let offsetY = self.rendererView.frame.size.height - height
                 
                 let rectangle = CGRect(x: Int(CGFloat(index) * gap * 3), y: Int(offsetY / 2), width: Int(itemWidth), height: Int(height))
                 
                 let clipPath = UIBezierPath(roundedRect: rectangle, cornerRadius: 2.5).cgPath
                 
                 let fillColor = index <= progressIndex ? UIColor.systemTeal.cgColor : UIColor.red.cgColor
+                
+                print(progressIndex)
                 
                 context.cgContext.addPath(clipPath)
                 context.cgContext.setFillColor(fillColor)
@@ -301,25 +330,15 @@ extension SoundPlayerView: MediaServiceDelegate {
         print(#function)
     }
     
+    
     func progress(_ currentProgress: TimeInterval, currentTime: TimeInterval) {
         
         let current = Float(currentTime * 100 / currentProgress)
+
+        let progressIndex =  Int(self.samplesLevels!.count * Int(current) / 100) == 0 ? 1 : Int(self.samplesLevels!.count * Int(current) / 100)
         
-        
-        let itemWidth: CGFloat = 5
-        let gap: CGFloat = 2.5
-        
-        let N = Int(self.rendererView.frame.size.width / (gap + itemWidth))
-        
-        let samples = self.audioContext!.render(targetSamples: N)
-        
-        let progressIndex =  Int(N * Int(current) / 100) == 0 ? 1 : Int(N * Int(current) / 100)
-        
-        let renderImage = self.drawOscillogram(size: self.rendererView.frame.size, itemWidth: itemWidth, gap: gap, samples: samples, progressIndex: progressIndex)
-        
-       
-        UIView.animate(withDuration: 0.0) {
-            self.rendererView.image = renderImage
+        UIView.animate(withDuration: 0.1) {
+            self.rendererView.image = self.drawOscillogram(progressIndex: progressIndex)
             self.slider.value = current
         }
     }
