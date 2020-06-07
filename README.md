@@ -7,7 +7,7 @@ SoundWavePlayer is a customizable view representing sounds over time.
 
 # Adding View
 
-```SoundPlayerView```can be added to storyboard or instantiated programmatically:
+```SoundPlayerView``` can be added to storyboard or instantiated programmatically:
 
 ```
 let thisBundle = Bundle(for: type(of: self))
