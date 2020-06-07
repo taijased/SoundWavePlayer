@@ -22,10 +22,7 @@ final class ViewController: UIViewController {
     fileprivate func setupUI() {
         
         let thisBundle = Bundle(for: type(of: self))
-        guard
-            let filePath = thisBundle.url(forResource: "witcher", withExtension: "mp3"),
-            filePath.checkFileExist()
-            else { return }
+        guard let filePath = thisBundle.url(forResource: "witcher", withExtension: "mp3"), filePath.checkFileExist() else { return }
         
         view.addSubview(playerView)
         playerView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
