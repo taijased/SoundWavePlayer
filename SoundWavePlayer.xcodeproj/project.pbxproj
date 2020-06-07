@@ -13,6 +13,11 @@
 		138538E3248B8E3600CE5330 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 138538E1248B8E3600CE5330 /* Main.storyboard */; };
 		138538E5248B8E3800CE5330 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 138538E4248B8E3800CE5330 /* Assets.xcassets */; };
 		138538E8248B8E3800CE5330 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 138538E6248B8E3800CE5330 /* LaunchScreen.storyboard */; };
+		138538F1248B8E6C00CE5330 /* MediaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138538F0248B8E6C00CE5330 /* MediaService.swift */; };
+		138538F3248B8E8700CE5330 /* LocalFileFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138538F2248B8E8700CE5330 /* LocalFileFetcher.swift */; };
+		138538F7248B8EC500CE5330 /* SoundPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138538F6248B8EC500CE5330 /* SoundPlayerView.swift */; };
+		138538F9248B8EE800CE5330 /* witcher.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 138538F8248B8EE800CE5330 /* witcher.mp3 */; };
+		138538FC248B993B00CE5330 /* PVAudioContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138538FB248B993B00CE5330 /* PVAudioContext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,11 @@
 		138538E4248B8E3800CE5330 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		138538E7248B8E3800CE5330 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		138538E9248B8E3800CE5330 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		138538F0248B8E6C00CE5330 /* MediaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaService.swift; sourceTree = "<group>"; };
+		138538F2248B8E8700CE5330 /* LocalFileFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileFetcher.swift; sourceTree = "<group>"; };
+		138538F6248B8EC500CE5330 /* SoundPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundPlayerView.swift; sourceTree = "<group>"; };
+		138538F8248B8EE800CE5330 /* witcher.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = witcher.mp3; sourceTree = "<group>"; };
+		138538FB248B993B00CE5330 /* PVAudioContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAudioContext.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +66,9 @@
 		138538DA248B8E3600CE5330 /* SoundWavePlayer */ = {
 			isa = PBXGroup;
 			children = (
+				138538F8248B8EE800CE5330 /* witcher.mp3 */,
+				138538F5248B8EAF00CE5330 /* PlayerView */,
+				138538EF248B8E5100CE5330 /* Services */,
 				138538DB248B8E3600CE5330 /* AppDelegate.swift */,
 				138538DD248B8E3600CE5330 /* SceneDelegate.swift */,
 				138538DF248B8E3600CE5330 /* ViewController.swift */,
@@ -65,6 +78,24 @@
 				138538E9248B8E3800CE5330 /* Info.plist */,
 			);
 			path = SoundWavePlayer;
+			sourceTree = "<group>";
+		};
+		138538EF248B8E5100CE5330 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				138538F0248B8E6C00CE5330 /* MediaService.swift */,
+				138538F2248B8E8700CE5330 /* LocalFileFetcher.swift */,
+				138538FB248B993B00CE5330 /* PVAudioContext.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		138538F5248B8EAF00CE5330 /* PlayerView */ = {
+			isa = PBXGroup;
+			children = (
+				138538F6248B8EC500CE5330 /* SoundPlayerView.swift */,
+			);
+			path = PlayerView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,6 +159,7 @@
 				138538E8248B8E3800CE5330 /* LaunchScreen.storyboard in Resources */,
 				138538E5248B8E3800CE5330 /* Assets.xcassets in Resources */,
 				138538E3248B8E3600CE5330 /* Main.storyboard in Resources */,
+				138538F9248B8EE800CE5330 /* witcher.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,7 +171,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				138538E0248B8E3600CE5330 /* ViewController.swift in Sources */,
+				138538FC248B993B00CE5330 /* PVAudioContext.swift in Sources */,
+				138538F3248B8E8700CE5330 /* LocalFileFetcher.swift in Sources */,
 				138538DC248B8E3600CE5330 /* AppDelegate.swift in Sources */,
+				138538F7248B8EC500CE5330 /* SoundPlayerView.swift in Sources */,
+				138538F1248B8E6C00CE5330 /* MediaService.swift in Sources */,
 				138538DE248B8E3600CE5330 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
